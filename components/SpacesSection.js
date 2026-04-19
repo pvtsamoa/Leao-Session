@@ -78,9 +78,6 @@ export default function SpacesSection() {
           >
             Log in with X
           </button>
-          <p className="mt-3 text-xs leading-5 text-white/55">
-            Add your X OAuth client values to `.env.local` first if sign-in is not configured yet.
-          </p>
         </div>
       ) : (
         <div className="mt-5 space-y-3">
