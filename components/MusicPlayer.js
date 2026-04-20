@@ -7,7 +7,16 @@ const sourceClasses = {
   youtube: 'border-red-400/30 bg-red-500/10 text-red-100',
   audius: 'border-neonPurple/40 bg-neonPurple/10 text-white',
   soundcloud: 'border-orange-400/30 bg-orange-500/10 text-orange-100',
+  suno: 'border-neonGreen/40 bg-neonGreen/10 text-neonGreen',
 };
+
+function parseSunoId(input) {
+  const trimmed = input.trim();
+  const match = trimmed.match(/(?:suno\.com\/(?:song|s|embed)\/)([a-zA-Z0-9-]+)/);
+  if (match) return match[1];
+  if (/^[a-zA-Z0-9-]{8,}$/.test(trimmed)) return trimmed;
+  return null;
+}
 
 export default function MusicPlayer() {
   const [query, setQuery] = useState('Curren$y');
@@ -17,6 +26,7 @@ export default function MusicPlayer() {
   const [activeTrack, setActiveTrack] = useState(null);
   const [playerVisible, setPlayerVisible] = useState(false);
   const [playerKey, setPlayerKey] = useState(0);
+  const [sunoInput, setSunoInput] = useState('');
 
   useEffect(() => {
     const trimmedQuery = query.trim();
@@ -68,6 +78,20 @@ export default function MusicPlayer() {
     setPlayerKey((currentValue) => currentValue + 1);
   };
 
+  const handleSunoLoad = () => {
+    const id = parseSunoId(sunoInput);
+    if (!id) return;
+    handleTrackSelect({
+      id,
+      source: 'suno',
+      title: 'Suno Track',
+      artist: 'Suno AI',
+      artwork: '',
+      embedUrl: `https://suno.com/embed/${id}`,
+    });
+    setSunoInput('');
+  };
+
   const togglePlayback = () => {
     if (!activeTrack) {
       return;
@@ -94,6 +118,27 @@ export default function MusicPlayer() {
         </div>
         <div className="rounded-full border border-neonYellow/30 bg-neonYellow/10 px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.24em] text-neonYellow">
           3 sources
+        </div>
+      </div>
+
+      <div className="mt-4 rounded-[24px] border border-neonGreen/20 bg-neonGreen/5 p-3">
+        <p className="mb-2 text-xs uppercase tracking-[0.28em] text-neonGreen">Suno</p>
+        <div className="flex gap-2">
+          <input
+            value={sunoInput}
+            onChange={(e) => setSunoInput(e.target.value)}
+            onKeyDown={(e) => e.key === 'Enter' && handleSunoLoad()}
+            placeholder="Paste a Suno URL or song ID"
+            className="flex-1 rounded-[16px] border border-white/10 bg-white/5 px-4 py-3 text-sm text-white outline-none placeholder:text-white/35"
+          />
+          <button
+            type="button"
+            onClick={handleSunoLoad}
+            disabled={!sunoInput.trim()}
+            className="rounded-[16px] border border-neonGreen/40 bg-neonGreen/10 px-4 py-3 text-sm font-black uppercase tracking-[0.2em] text-neonGreen transition duration-300 hover:bg-neonGreen/20 disabled:opacity-30"
+          >
+            Load
+          </button>
         </div>
       </div>
 

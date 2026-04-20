@@ -10,9 +10,9 @@ const soundConfig = [
   { id: 'inhale', label: 'Inhale', file: '/sounds/inhale.mp3' },
   { id: 'exhale', label: 'Exhale', file: '/sounds/exhale.mp3' },
   { id: 'glass-tink', label: 'Glass Tink', file: '/sounds/glass-tink.mp3' },
-  { id: 'snoop', label: 'Snoop Dogg', file: '/sounds/snoop.mp3' },
-  { id: 'cheech-chong', label: 'Cheech & Chong', file: '/sounds/cheech-chong.mp3' },
-  { id: 'willie', label: 'Willie Nelson', file: '/sounds/willie.mp3' },
+  { id: 'smoke-puff', label: 'Smoke Puff', file: '/sounds/smoke-puff.mp3' },
+  { id: 'cough', label: 'Cough', file: '/sounds/cough.mp3' },
+  { id: 'deep-breath', label: 'Deep Breath', file: '/sounds/deep-breath.mp3' },
 ];
 
 export default function Soundboard() {
