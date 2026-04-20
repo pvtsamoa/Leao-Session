@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+@theme {
+  --color-canvas: #0a0a0a;
+  --color-neon-purple: #b026ff;
+  --color-neon-blue: #00d4ff;
+  --color-neon-green: #6dff67;
+  --color-neon-yellow: #ffe45c;
+}

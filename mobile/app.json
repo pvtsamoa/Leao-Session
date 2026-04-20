@@ -1,0 +1,42 @@
+{
+  "expo": {
+    "name": "Leao Sessions",
+    "slug": "leao-sessions",
+    "version": "1.0.0",
+    "scheme": "leaosessions",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "dark",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#0a0a0a"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#0a0a0a"
+      },
+      "package": "com.leaosessions.app",
+      "edgeToEdgeEnabled": true,
+      "permissions": ["android.permission.INTERNET"]
+    },
+    "plugins": [
+      "expo-router",
+      "expo-secure-store",
+      "expo-web-browser",
+      ["expo-av", { "microphonePermission": false }],
+      ["expo-build-properties", {
+        "android": {
+          "resizeableActivity": true
+        }
+      }]
+    ],
+    "extra": {
+      "VERCEL_URL": "https://leao-session-bp006wu8f-pvtsamoa-tautua.vercel.app",
+      "TWITTER_CLIENT_ID": "MFNBUFQ3aExCTE1xTmN3QXR3MWI6MTpjaQ",
+      "router": {}
+    }
+  }
+}

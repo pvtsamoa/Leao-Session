@@ -6,8 +6,13 @@ import { authOptions } from '@/lib/auth';
 export const dynamic = 'force-dynamic';
 
 export async function GET(request) {
-  const session = await getServerSession(authOptions);
-  const accessToken = session?.accessToken;
+  const authHeader = request.headers.get('authorization');
+  let accessToken = authHeader?.startsWith('Bearer ') ? authHeader.slice(7) : null;
+
+  if (!accessToken) {
+    const session = await getServerSession(authOptions);
+    accessToken = session?.accessToken;
+  }
 
   if (!accessToken) {
     return NextResponse.json({ error: 'Sign in with X before requesting live Spaces.' }, { status: 401 });
