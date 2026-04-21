@@ -1,0 +1,12 @@
+{
+  "name": "expo-overlay",
+  "version": "1.0.0",
+  "description": "Floating overlay module for Leao Sessions",
+  "main": "src/index",
+  "files": ["src", "android"],
+  "dependencies": {},
+  "peerDependencies": {
+    "expo": "*",
+    "react-native": "*"
+  }
+}

@@ -18,10 +18,11 @@
         "backgroundColor": "#0a0a0a"
       },
       "package": "com.leaosessions.app",
-      "permissions": ["android.permission.INTERNET"]
+      "permissions": ["android.permission.INTERNET", "android.permission.SYSTEM_ALERT_WINDOW", "android.permission.FOREGROUND_SERVICE"]
     },
     "plugins": [
       "expo-router",
+      "./modules/overlay/app.plugin.js",
       "expo-secure-store",
       "expo-web-browser",
       ["expo-av", { "microphonePermission": false }],

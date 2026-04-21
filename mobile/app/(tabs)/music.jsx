@@ -5,6 +5,7 @@ import { useSearch } from '../../hooks/useSearch';
 import { useMusicStore } from '../../store/musicStore';
 import TrackCard from '../../components/TrackCard';
 import NowPlaying from '../../components/NowPlaying';
+import OverlayToggle from '../../components/OverlayToggle';
 
 function parseSunoId(input) {
   const trimmed = input.trim();
@@ -32,6 +33,8 @@ export default function MusicScreen() {
         <Text style={s.label}>Leao Sessions</Text>
         <Text style={s.title}>Music</Text>
       </View>
+
+      <OverlayToggle />
 
       <View style={s.sunoRow}>
         <TextInput

@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { Audio } from 'expo-av';
 import { soundConfig } from '../lib/soundConfig';
+import { onOverlayAction } from '../modules/overlay/src/index';
 
 export function useSoundboard() {
   const soundMap = useRef({});
@@ -10,9 +11,13 @@ export function useSoundboard() {
 
     async function loadSounds() {
       try {
-        await Audio.setAudioModeAsync({ shouldDuckAndroid: false, playThroughEarpieceAndroid: false });
+        await Audio.setAudioModeAsync({
+          staysActiveInBackground: true,
+          shouldDuckAndroid: false,
+          playThroughEarpieceAndroid: false,
+        });
       } catch {
-        // audio mode unavailable in Expo Go — sounds still play with defaults
+        // audio mode not available in dev — sounds still play with defaults
       }
 
       for (const pad of soundConfig) {
@@ -27,8 +32,14 @@ export function useSoundboard() {
 
     loadSounds();
 
+    // handle pad triggers from the native overlay
+    const sub = onOverlayAction((action) => {
+      if (action.startsWith('pad:')) triggerSound(action.slice(4));
+    });
+
     return () => {
       mounted = false;
+      sub?.remove();
       Object.values(soundMap.current).forEach((s) => s.unloadAsync());
     };
   }, []);
