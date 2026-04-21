@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { Stack, useRouter, useSegments } from 'expo-router';
 import { useAuthStore } from '../store/authStore';
-import '../global.css';
 
 export default function RootLayout() {
   const { hydrated, xToken, hydrate } = useAuthStore();

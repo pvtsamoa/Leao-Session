@@ -1,9 +1,9 @@
-import { View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import YTPlayer from 'react-native-youtube-iframe';
 
 export default function YoutubePlayer({ videoId, play }) {
   return (
-    <View className="rounded-[22px] overflow-hidden bg-black/40">
+    <View style={s.wrapper}>
       <YTPlayer
         height={200}
         videoId={videoId}
@@ -13,3 +13,7 @@ export default function YoutubePlayer({ videoId, play }) {
     </View>
   );
 }
+
+const s = StyleSheet.create({
+  wrapper: { borderRadius: 22, overflow: 'hidden', backgroundColor: 'rgba(0,0,0,0.4)' },
+});

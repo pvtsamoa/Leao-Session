@@ -8,7 +8,7 @@ WebBrowser.maybeCompleteAuthSession();
 const CLIENT_ID = Constants.expoConfig?.extra?.TWITTER_CLIENT_ID ?? '';
 
 const discovery = {
-  authorizationEndpoint: 'https://twitter.com/i/oauth2/authorize',
+  authorizationEndpoint: 'https://x.com/i/oauth2/authorize',
   tokenEndpoint: 'https://api.twitter.com/2/oauth2/token',
   revocationEndpoint: 'https://api.twitter.com/2/oauth2/revoke',
 };

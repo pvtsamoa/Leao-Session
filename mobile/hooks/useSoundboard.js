@@ -9,11 +9,11 @@ export function useSoundboard() {
     let mounted = true;
 
     async function loadSounds() {
-      await Audio.setAudioModeAsync({
-        staysActiveInBackground: true,
-        shouldDuckAndroid: false,
-        playThroughEarpieceAndroid: false,
-      });
+      try {
+        await Audio.setAudioModeAsync({ shouldDuckAndroid: false, playThroughEarpieceAndroid: false });
+      } catch {
+        // audio mode unavailable in Expo Go — sounds still play with defaults
+      }
 
       for (const pad of soundConfig) {
         try {

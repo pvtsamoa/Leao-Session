@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { View, Text, Pressable } from 'react-native';
+import { View, Text, Pressable, StyleSheet } from 'react-native';
 
 export default function SoundPad({ label, index, onTrigger }) {
   const [active, setActive] = useState(false);
@@ -13,23 +13,26 @@ export default function SoundPad({ label, index, onTrigger }) {
   return (
     <Pressable
       onPress={handlePress}
-      className={`rounded-[24px] border p-4 min-h-[118px] justify-between ${
-        active
-          ? 'border-neon-green/60 bg-neon-green/20'
-          : 'border-white/10 bg-white/5'
-      }`}
+      style={[s.pad, active ? s.padActive : s.padIdle]}
     >
-      <View className="rounded-full border border-white/10 bg-black/30 self-start px-3 py-1">
-        <Text className="text-white/70 text-[11px] font-semibold uppercase tracking-widest">
-          Pad {index + 1}
-        </Text>
+      <View style={s.padLabel}>
+        <Text style={s.padLabelText}>Pad {index + 1}</Text>
       </View>
       <View>
-        <Text className={`font-black text-lg ${active ? 'text-neon-green' : 'text-white'}`}>
-          {label}
-        </Text>
-        <Text className="text-white/55 text-xs uppercase tracking-widest mt-1">Tap to trigger</Text>
+        <Text style={[s.padName, active && s.padNameActive]}>{label}</Text>
+        <Text style={s.tapHint}>Tap to trigger</Text>
       </View>
     </Pressable>
   );
 }
+
+const s = StyleSheet.create({
+  pad: { borderRadius: 24, borderWidth: 1, padding: 16, minHeight: 118, justifyContent: 'space-between' },
+  padIdle: { borderColor: 'rgba(255,255,255,0.1)', backgroundColor: 'rgba(255,255,255,0.05)' },
+  padActive: { borderColor: 'rgba(109,255,103,0.6)', backgroundColor: 'rgba(109,255,103,0.2)' },
+  padLabel: { borderRadius: 999, borderWidth: 1, borderColor: 'rgba(255,255,255,0.1)', backgroundColor: 'rgba(0,0,0,0.3)', alignSelf: 'flex-start', paddingHorizontal: 12, paddingVertical: 4 },
+  padLabelText: { color: 'rgba(255,255,255,0.7)', fontSize: 11, fontWeight: '600', textTransform: 'uppercase', letterSpacing: 2 },
+  padName: { color: '#fff', fontWeight: '900', fontSize: 18 },
+  padNameActive: { color: '#6dff67' },
+  tapHint: { color: 'rgba(255,255,255,0.55)', fontSize: 11, textTransform: 'uppercase', letterSpacing: 2, marginTop: 4 },
+});

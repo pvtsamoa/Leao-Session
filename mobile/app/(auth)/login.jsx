@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
-import { View, Text, Pressable, ActivityIndicator, SafeAreaView } from 'react-native';
+import { View, Text, Pressable, ActivityIndicator, StyleSheet } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { useXAuth, exchangeCodeForToken, saveTokens, fetchXUser } from '../../lib/auth';
 import { useAuthStore } from '../../store/authStore';
@@ -9,9 +10,10 @@ export default function LoginScreen() {
   const { request, response, promptAsync, redirectUri } = useXAuth();
   const setAuth = useAuthStore((s) => s.setAuth);
 
+  console.log('Redirect URI:', redirectUri);
+
   useEffect(() => {
     if (!response) return;
-
     async function handleResponse() {
       if (response.type !== 'success') return;
       try {
@@ -25,30 +27,28 @@ export default function LoginScreen() {
         console.error('Auth error:', err);
       }
     }
-
     handleResponse();
   }, [response]);
 
   return (
-    <SafeAreaView className="flex-1 bg-canvas items-center justify-center px-6">
-      <Text className="text-white font-black text-4xl mb-2 text-center">Leao Sessions</Text>
-      <Text className="text-white/60 text-base text-center mb-12 leading-relaxed">
-        Ride the vibe
-      </Text>
-
-      <Pressable
-        disabled={!request}
-        onPress={() => promptAsync()}
-        className="rounded-[20px] bg-neon-purple/80 border border-neon-purple/40 px-8 py-4 items-center w-full"
-      >
+    <SafeAreaView style={s.container}>
+      <Text style={s.title}>Leao Sessions</Text>
+      <Text style={s.subtitle}>Ride the vibe</Text>
+      <Pressable disabled={!request} onPress={() => promptAsync({ showInRecents: false, createTask: false })} style={s.btn}>
         {!request ? (
           <ActivityIndicator color="#fff" />
         ) : (
-          <Text className="text-white font-black text-base uppercase tracking-widest">
-            Log in with X
-          </Text>
+          <Text style={s.btnText}>Log in with X</Text>
         )}
       </Pressable>
     </SafeAreaView>
   );
 }
+
+const s = StyleSheet.create({
+  container: { flex: 1, backgroundColor: '#0a0a0a', alignItems: 'center', justifyContent: 'center', paddingHorizontal: 24 },
+  title: { color: '#fff', fontWeight: '900', fontSize: 36, marginBottom: 8, textAlign: 'center' },
+  subtitle: { color: 'rgba(255,255,255,0.6)', fontSize: 16, textAlign: 'center', marginBottom: 48, lineHeight: 24 },
+  btn: { borderRadius: 20, backgroundColor: 'rgba(176,38,255,0.8)', borderWidth: 1, borderColor: 'rgba(176,38,255,0.4)', paddingHorizontal: 32, paddingVertical: 16, alignItems: 'center', width: '100%' },
+  btnText: { color: '#fff', fontWeight: '900', fontSize: 16, textTransform: 'uppercase', letterSpacing: 3 },
+});

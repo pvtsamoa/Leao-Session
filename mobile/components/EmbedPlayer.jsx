@@ -1,9 +1,9 @@
-import { View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { WebView } from 'react-native-webview';
 
 export default function EmbedPlayer({ uri }) {
   return (
-    <View className="rounded-[22px] overflow-hidden bg-black/40" style={{ height: 200 }}>
+    <View style={s.wrapper}>
       <WebView
         source={{ uri }}
         allowsInlineMediaPlayback
@@ -11,8 +11,13 @@ export default function EmbedPlayer({ uri }) {
         javaScriptEnabled
         domStorageEnabled
         mixedContentMode="always"
-        style={{ flex: 1, backgroundColor: '#000' }}
+        style={s.webview}
       />
     </View>
   );
 }
+
+const s = StyleSheet.create({
+  wrapper: { borderRadius: 22, overflow: 'hidden', backgroundColor: 'rgba(0,0,0,0.4)', height: 200 },
+  webview: { flex: 1, backgroundColor: '#000' },
+});

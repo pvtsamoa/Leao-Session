@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { View, Text, TextInput, FlatList, Pressable, ActivityIndicator, SafeAreaView } from 'react-native';
+import { View, Text, TextInput, FlatList, Pressable, ActivityIndicator, StyleSheet } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useSearch } from '../../hooks/useSearch';
 import { useMusicStore } from '../../store/musicStore';
 import TrackCard from '../../components/TrackCard';
@@ -26,38 +27,34 @@ export default function MusicScreen() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-canvas">
-      <View className="px-5 pt-4 pb-3">
-        <Text className="text-neon-blue text-xs uppercase tracking-widest">Leao Sessions</Text>
-        <Text className="text-white font-black text-2xl mt-1">Music</Text>
+    <SafeAreaView style={s.container}>
+      <View style={s.header}>
+        <Text style={s.label}>Leao Sessions</Text>
+        <Text style={s.title}>Music</Text>
       </View>
 
-      <View className="mx-5 mb-3 flex-row gap-2">
+      <View style={s.sunoRow}>
         <TextInput
           value={sunoInput}
           onChangeText={setSunoInput}
           onSubmitEditing={handleSunoLoad}
           placeholder="Paste a Suno URL or ID"
           placeholderTextColor="rgba(255,255,255,0.35)"
-          className="flex-1 rounded-[16px] border border-neon-green/30 bg-neon-green/5 px-4 py-3 text-white text-sm"
+          style={s.sunoInput}
         />
-        <Pressable
-          onPress={handleSunoLoad}
-          disabled={!sunoInput.trim()}
-          className="rounded-[16px] border border-neon-green/40 bg-neon-green/10 px-4 py-3 justify-center"
-        >
-          <Text className="text-neon-green text-xs font-black uppercase tracking-wider">Load</Text>
+        <Pressable onPress={handleSunoLoad} disabled={!sunoInput.trim()} style={s.sunoBtn}>
+          <Text style={s.sunoBtnText}>Load</Text>
         </Pressable>
       </View>
 
-      <View className="mx-5 mb-3 flex-row items-center gap-3 rounded-[20px] border border-white/10 bg-white/5 px-4 py-3">
-        <Text className="text-white/40 text-base">🔍</Text>
+      <View style={s.searchRow}>
+        <Text style={s.searchIcon}>🔍</Text>
         <TextInput
           value={query}
           onChangeText={setQuery}
           placeholder="Search any song or artist"
           placeholderTextColor="rgba(255,255,255,0.35)"
-          className="flex-1 text-white text-base bg-transparent"
+          style={s.searchInput}
         />
         {loading && <ActivityIndicator color="#6dff67" size="small" />}
       </View>
@@ -68,21 +65,14 @@ export default function MusicScreen() {
         contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: 20 }}
         ListHeaderComponent={
           activeTrack ? (
-            <NowPlaying
-              track={activeTrack}
-              playerVisible={playerVisible}
-              playerKey={playerKey}
-              onToggle={togglePlayer}
-            />
+            <NowPlaying track={activeTrack} playerVisible={playerVisible} playerKey={playerKey} onToggle={togglePlayer} />
           ) : null
         }
-        renderItem={({ item }) => (
-          <TrackCard track={item} onPress={() => setTrack(item)} />
-        )}
+        renderItem={({ item }) => <TrackCard track={item} onPress={() => setTrack(item)} />}
         ListEmptyComponent={
           !loading ? (
-            <View className="rounded-[20px] border border-white/10 bg-white/5 px-4 py-6 items-center">
-              <Text className="text-white/45 text-sm">Start typing to search all sources</Text>
+            <View style={s.emptyBox}>
+              <Text style={s.emptyText}>Start typing to search all sources</Text>
             </View>
           ) : null
         }
@@ -90,3 +80,19 @@ export default function MusicScreen() {
     </SafeAreaView>
   );
 }
+
+const s = StyleSheet.create({
+  container: { flex: 1, backgroundColor: '#0a0a0a' },
+  header: { paddingHorizontal: 20, paddingTop: 16, paddingBottom: 12 },
+  label: { color: '#00d4ff', fontSize: 11, textTransform: 'uppercase', letterSpacing: 2 },
+  title: { color: '#fff', fontWeight: '900', fontSize: 24, marginTop: 4 },
+  sunoRow: { marginHorizontal: 20, marginBottom: 12, flexDirection: 'row', gap: 8 },
+  sunoInput: { flex: 1, borderRadius: 16, borderWidth: 1, borderColor: 'rgba(109,255,103,0.3)', backgroundColor: 'rgba(109,255,103,0.05)', paddingHorizontal: 16, paddingVertical: 12, color: '#fff', fontSize: 14 },
+  sunoBtn: { borderRadius: 16, borderWidth: 1, borderColor: 'rgba(109,255,103,0.4)', backgroundColor: 'rgba(109,255,103,0.1)', paddingHorizontal: 16, paddingVertical: 12, justifyContent: 'center' },
+  sunoBtnText: { color: '#6dff67', fontSize: 11, fontWeight: '900', textTransform: 'uppercase', letterSpacing: 2 },
+  searchRow: { marginHorizontal: 20, marginBottom: 12, flexDirection: 'row', alignItems: 'center', gap: 12, borderRadius: 20, borderWidth: 1, borderColor: 'rgba(255,255,255,0.1)', backgroundColor: 'rgba(255,255,255,0.05)', paddingHorizontal: 16, paddingVertical: 12 },
+  searchIcon: { fontSize: 16, color: 'rgba(255,255,255,0.4)' },
+  searchInput: { flex: 1, color: '#fff', fontSize: 16, backgroundColor: 'transparent' },
+  emptyBox: { borderRadius: 20, borderWidth: 1, borderColor: 'rgba(255,255,255,0.1)', backgroundColor: 'rgba(255,255,255,0.05)', paddingHorizontal: 16, paddingVertical: 24, alignItems: 'center' },
+  emptyText: { color: 'rgba(255,255,255,0.45)', fontSize: 14 },
+});

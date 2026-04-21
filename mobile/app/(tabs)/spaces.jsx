@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
-import { View, Text, FlatList, Pressable, ActivityIndicator, SafeAreaView } from 'react-native';
+import { View, Text, FlatList, Pressable, ActivityIndicator, StyleSheet } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useSpaces } from '../../hooks/useSpaces';
 import { useAuthStore } from '../../store/authStore';
 import SpaceCard from '../../components/SpaceCard';
@@ -11,32 +12,26 @@ export default function SpacesScreen() {
   useEffect(() => { refresh(); }, []);
 
   return (
-    <SafeAreaView className="flex-1 bg-canvas">
-      <View className="px-5 pt-4 pb-2 flex-row items-center justify-between">
+    <SafeAreaView style={s.container}>
+      <View style={s.header}>
         <View>
-          <Text className="text-neon-blue text-xs uppercase tracking-widest">Leao Sessions</Text>
-          <Text className="text-white font-black text-2xl mt-1">Live Spaces</Text>
+          <Text style={s.label}>Leao Sessions</Text>
+          <Text style={s.title}>Live Spaces</Text>
         </View>
-        <Pressable onPress={clearAuth} className="border border-white/10 rounded-[14px] px-3 py-2">
-          <Text className="text-white/55 text-xs uppercase tracking-wider">
-            {user?.username ? `@${user.username}` : 'Sign out'}
-          </Text>
+        <Pressable onPress={clearAuth} style={s.signOutBtn}>
+          <Text style={s.signOutText}>{user?.username ? `@${user.username}` : 'Sign out'}</Text>
         </Pressable>
       </View>
 
-      <View className="px-5 pb-2 flex-row items-center justify-between">
-        <Text className="text-white/45 text-xs uppercase tracking-wider">
-          {spaces.length > 0 ? `${spaces.length} live now` : ''}
-        </Text>
-        <Pressable onPress={refresh} className="border border-neon-blue/30 rounded-[12px] px-3 py-1">
-          <Text className="text-neon-blue text-xs uppercase tracking-wider">Refresh</Text>
+      <View style={s.subHeader}>
+        <Text style={s.countText}>{spaces.length > 0 ? `${spaces.length} live now` : ''}</Text>
+        <Pressable onPress={refresh} style={s.refreshBtn}>
+          <Text style={s.refreshText}>Refresh</Text>
         </Pressable>
       </View>
 
       {error ? (
-        <View className="mx-5 rounded-[18px] border border-red-400/40 bg-red-500/10 px-4 py-3">
-          <Text className="text-red-200 text-sm">{error}</Text>
-        </View>
+        <View style={s.errorBox}><Text style={s.errorText}>{error}</Text></View>
       ) : null}
 
       <FlatList
@@ -48,13 +43,13 @@ export default function SpacesScreen() {
         onRefresh={refresh}
         ListEmptyComponent={
           loading ? (
-            <View className="items-center py-12">
+            <View style={s.emptyLoading}>
               <ActivityIndicator color="#00d4ff" />
-              <Text className="text-white/45 text-sm mt-4">Finding live Spaces...</Text>
+              <Text style={s.emptyText}>Finding live Spaces...</Text>
             </View>
           ) : (
-            <View className="rounded-[20px] border border-white/10 bg-white/5 px-4 py-8 items-center">
-              <Text className="text-white/45 text-sm">No live Spaces right now</Text>
+            <View style={s.emptyBox}>
+              <Text style={s.emptyText}>No live Spaces right now</Text>
             </View>
           )
         }
@@ -62,3 +57,21 @@ export default function SpacesScreen() {
     </SafeAreaView>
   );
 }
+
+const s = StyleSheet.create({
+  container: { flex: 1, backgroundColor: '#0a0a0a' },
+  header: { paddingHorizontal: 20, paddingTop: 16, paddingBottom: 8, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
+  label: { color: '#00d4ff', fontSize: 11, textTransform: 'uppercase', letterSpacing: 2 },
+  title: { color: '#fff', fontWeight: '900', fontSize: 24, marginTop: 4 },
+  signOutBtn: { borderWidth: 1, borderColor: 'rgba(255,255,255,0.1)', borderRadius: 14, paddingHorizontal: 12, paddingVertical: 8 },
+  signOutText: { color: 'rgba(255,255,255,0.55)', fontSize: 11, textTransform: 'uppercase', letterSpacing: 1.5 },
+  subHeader: { paddingHorizontal: 20, paddingBottom: 8, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
+  countText: { color: 'rgba(255,255,255,0.45)', fontSize: 11, textTransform: 'uppercase', letterSpacing: 1.5 },
+  refreshBtn: { borderWidth: 1, borderColor: 'rgba(0,212,255,0.3)', borderRadius: 12, paddingHorizontal: 12, paddingVertical: 4 },
+  refreshText: { color: '#00d4ff', fontSize: 11, textTransform: 'uppercase', letterSpacing: 1.5 },
+  errorBox: { marginHorizontal: 20, borderRadius: 18, borderWidth: 1, borderColor: 'rgba(248,113,113,0.4)', backgroundColor: 'rgba(239,68,68,0.1)', paddingHorizontal: 16, paddingVertical: 12 },
+  errorText: { color: '#fecaca', fontSize: 14 },
+  emptyLoading: { alignItems: 'center', paddingVertical: 48 },
+  emptyBox: { borderRadius: 20, borderWidth: 1, borderColor: 'rgba(255,255,255,0.1)', backgroundColor: 'rgba(255,255,255,0.05)', paddingHorizontal: 16, paddingVertical: 32, alignItems: 'center' },
+  emptyText: { color: 'rgba(255,255,255,0.45)', fontSize: 14, marginTop: 16 },
+});
