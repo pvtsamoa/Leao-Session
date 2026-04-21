@@ -31,19 +31,14 @@
       "expo-secure-store",
       "expo-web-browser",
       [
-        "expo-av",
-        {
-          "microphonePermission": false
-        }
-      ],
-      [
         "expo-build-properties",
         {
           "android": {
             "resizeableActivity": true
           }
         }
-      ]
+      ],
+      "expo-audio"
     ],
     "extra": {
       "VERCEL_URL": "https://leao-session-bp006wu8f-pvtsamoa-tautua.vercel.app",

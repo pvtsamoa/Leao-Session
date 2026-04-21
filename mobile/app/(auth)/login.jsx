@@ -10,8 +10,6 @@ export default function LoginScreen() {
   const { request, response, promptAsync, redirectUri } = useXAuth();
   const setAuth = useAuthStore((s) => s.setAuth);
 
-  console.log('Redirect URI:', redirectUri);
-
   useEffect(() => {
     if (!response) return;
     async function handleResponse() {
