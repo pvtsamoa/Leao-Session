@@ -18,24 +18,40 @@
         "backgroundColor": "#0a0a0a"
       },
       "package": "com.leaosessions.app",
-      "permissions": ["android.permission.INTERNET", "android.permission.SYSTEM_ALERT_WINDOW", "android.permission.FOREGROUND_SERVICE"]
+      "permissions": [
+        "android.permission.INTERNET",
+        "android.permission.SYSTEM_ALERT_WINDOW",
+        "android.permission.FOREGROUND_SERVICE",
+        "android.permission.MODIFY_AUDIO_SETTINGS"
+      ]
     },
     "plugins": [
       "expo-router",
       "./modules/overlay/app.plugin.js",
       "expo-secure-store",
       "expo-web-browser",
-      ["expo-av", { "microphonePermission": false }],
-      ["expo-build-properties", {
-        "android": {
-          "resizeableActivity": true
+      [
+        "expo-av",
+        {
+          "microphonePermission": false
         }
-      }]
+      ],
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "resizeableActivity": true
+          }
+        }
+      ]
     ],
     "extra": {
       "VERCEL_URL": "https://leao-session-bp006wu8f-pvtsamoa-tautua.vercel.app",
       "TWITTER_CLIENT_ID": "MFNBUFQ3aExCTE1xTmN3QXR3MWI6MTpjaQ",
-      "router": {}
+      "router": {},
+      "eas": {
+        "projectId": "b4409fed-f9de-4872-9402-6c101741afe2"
+      }
     }
   }
 }
