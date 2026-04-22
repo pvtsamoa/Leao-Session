@@ -3,8 +3,6 @@ import * as WebBrowser from 'expo-web-browser';
 import * as SecureStore from 'expo-secure-store';
 import Constants from 'expo-constants';
 
-WebBrowser.maybeCompleteAuthSession();
-
 const CLIENT_ID = Constants.expoConfig?.extra?.TWITTER_CLIENT_ID ?? '';
 
 const discovery = {
